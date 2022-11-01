@@ -248,6 +248,7 @@ struct TestSpecifierOptions {
   concurrent_jobs: NonZeroUsize,
   fail_fast: Option<NonZeroUsize>,
   filter: TestFilter,
+  json: bool,
 }
 
 impl TestSummary {
@@ -1326,6 +1327,7 @@ pub async fn run_tests(
       concurrent_jobs: test_flags.concurrent_jobs,
       fail_fast: test_flags.fail_fast,
       filter: TestFilter::from_flag(&test_flags.filter),
+      json: test_flags.json,
     },
   )
   .await?;
@@ -1506,6 +1508,7 @@ pub async fn run_tests_with_watch(
           concurrent_jobs: test_flags.concurrent_jobs,
           fail_fast: test_flags.fail_fast,
           filter: TestFilter::from_flag(&filter),
+          json: test_flags.json,
         },
       )
       .await?;
