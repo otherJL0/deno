@@ -194,6 +194,7 @@ pub struct TestFlags {
   pub shuffle: Option<u64>,
   pub concurrent_jobs: NonZeroUsize,
   pub trace_ops: bool,
+  pub json: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize, Serialize)]
@@ -2720,6 +2721,7 @@ fn test_parse(flags: &mut Flags, matches: &clap::ArgMatches) {
   let doc = matches.is_present("doc");
   let allow_none = matches.is_present("allow-none");
   let filter = matches.value_of("filter").map(String::from);
+  let json = matches.is_present("json");
 
   let fail_fast = if matches.is_present("fail-fast") {
     if let Some(value) = matches.value_of("fail-fast") {
@@ -2802,6 +2804,7 @@ fn test_parse(flags: &mut Flags, matches: &clap::ArgMatches) {
     allow_none,
     concurrent_jobs,
     trace_ops,
+    json,
   });
 }
 
@@ -5355,6 +5358,7 @@ mod tests {
           shuffle: None,
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: true,
+          json: false,
         }),
         unstable: true,
         no_prompt: true,
@@ -5426,6 +5430,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(4).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         type_check_mode: TypeCheckMode::Local,
         no_prompt: true,
@@ -5454,6 +5459,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         type_check_mode: TypeCheckMode::Local,
         no_prompt: true,
@@ -5486,6 +5492,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         no_prompt: true,
         type_check_mode: TypeCheckMode::Local,
@@ -5512,6 +5519,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         no_prompt: true,
         watch: None,
@@ -5538,6 +5546,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         no_prompt: true,
         type_check_mode: TypeCheckMode::Local,
@@ -5565,6 +5574,7 @@ mod tests {
           ignore: vec![],
           concurrent_jobs: NonZeroUsize::new(1).unwrap(),
           trace_ops: false,
+          json: false,
         }),
         watch: Some(vec![]),
         type_check_mode: TypeCheckMode::Local,
